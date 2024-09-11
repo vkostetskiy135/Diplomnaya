@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список пользователей</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .user-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .user-list li {
+            margin: 10px 0;
+        }
+
+        .user-list li a {
+            text-decoration: none;
+            color: #007BFF;
+            font-size: 18px;
+        }
+
+        .user-list li a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Список пользователей</h2>
+        <ul class="user-list">
+            {% for user in users %}
+                <li><a href="{% url 'profile' user.slug %}">{{ user.username }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

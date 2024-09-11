@@ -1,0 +1,166 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        .profile-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+            position: relative;
+        }
+
+        .profile-container img {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .profile-container h2 {
+            margin: 0;
+            margin-bottom: 10px;
+        }
+
+        .profile-container p {
+            margin: 5px 0;
+            color: #333;
+        }
+
+        .profile-container .edit-button {
+            margin-top: 20px;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .avatar-container {
+            position: relative;
+            display: inline-block;
+            width: 150px;
+            height: 150px;
+        }
+
+        .avatar-container img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+
+        .avatar-hover {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            font-size: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 50%;
+        }
+
+        .avatar-container:hover .avatar-hover {
+            opacity: 1;
+        }
+
+        .upload-avatar-form {
+            margin-top: 10px;
+        }
+
+        .upload-avatar-input {
+            display: block;
+            margin: 0 auto 10px;
+            width: 80%;  /* Полностью центрируем инпут */
+            padding: 1px;
+            font-size: 14px;
+            background-color: #007BFF; /* Синий фон как у кнопки редактирования */
+            border-radius: 4px;
+            border: none;
+            color: white;
+        }
+
+        .upload-avatar-button {
+            padding: 10px;
+            background-color: #28a745;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .upload-avatar-button:hover {
+            background-color: #218838;
+        }
+
+        input[type="file"]::-webkit-file-upload-button {
+            visibility: hidden;
+        }
+
+        input[type="file"]::before {
+            content: 'Выберите файл';
+            display: inline-block;
+            background: #007BFF;
+            color: white;
+            padding: 5px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        input[type="file"]:hover::before {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="profile-container">
+    <div class="avatar-container">
+        <img src="{% if user.avatar %}{{ user.avatar.url }}{% else %}/static/imgs/default_avatar.jpg{% endif %}" alt="Аватар пользователя">
+        <div class="avatar-hover">
+            <form action="{% url 'upload_avatar' slug=user.slug %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" name="avatar" class="upload-avatar-input">
+                <button type="submit" class="upload-avatar-button">Загрузить</button>
+            </form>
+        </div>
+    </div>
+
+    <h2>{{ user.username }}</h2>
+    <p><strong>Имя:</strong> {{ user.first_name }}</p>
+    <p><strong>Фамилия:</strong> {{ user.last_name }}</p>
+    <p><strong>Возраст:</strong> {{ user.age }}</p>
+
+    <form action="{% url 'edit_profile' slug=user.slug %}" method="get">
+        <button type="submit" class="edit-button">Редактировать</button>
+    </form>
+</div>
+
+</body>
+</html>

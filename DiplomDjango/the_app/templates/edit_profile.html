@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактировать профиль</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        .edit-profile-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+
+        .edit-profile-container input[type="text"],
+        .edit-profile-container input[type="number"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .edit-profile-container button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .edit-profile-container .submit-button {
+            background-color: #007BFF; /* Синий цвет для кнопки "Подтвердить" */
+            color: white;
+        }
+
+        .edit-profile-container .submit-button:hover {
+            background-color: #0069d9; /* Более тёмный оттенок синего при наведении */
+        }
+
+        .edit-profile-container .cancel-button {
+            background-color: #FF5733; /* Красный цвет для кнопки "Отменить" */
+            color: white;
+        }
+
+        .edit-profile-container .cancel-button:hover {
+            background-color: #E74C3C; /* Более тёмный оттенок красного при наведении */
+        }
+    </style>
+</head>
+<body>
+
+<div class="edit-profile-container">
+    <form action="{% url 'update_profile' slug=user.slug %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="first_name" placeholder="Имя" value="{{ user.first_name }}" required>
+        <input type="text" name="last_name" placeholder="Фамилия" value="{{ user.last_name }}" required>
+        <input type="number" name="age" placeholder="Возраст" value="{{ user.age }}" required>
+
+        <button type="submit" class="submit-button">Подтвердить</button>
+    </form>
+    <form action="{% url 'profile' slug=user.slug %}" method="get">
+        <button type="submit" class="cancel-button">Отменить</button>
+    </form>
+</div>
+
+</body>
+</html>
+
