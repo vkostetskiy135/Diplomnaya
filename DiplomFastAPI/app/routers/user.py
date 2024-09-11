@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from starlette.responses import HTMLResponse, RedirectResponse
 from starlette.templating import Jinja2Templates
 
-from DiplomFastAPI.app.secret_key import key
+from DiplomFastAPI.app.secret_key import secret_key
 from passlib.context import CryptContext
 import bcrypt
 from fastapi import APIRouter, Depends, HTTPException, status, Request, Form
