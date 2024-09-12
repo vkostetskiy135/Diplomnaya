@@ -1,14 +1,28 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils.text import slugify
+from django.conf import settings
 
 
-class User(models.Model):
-    username = models.CharField(max_length=150, unique=True)
-    password = models.CharField(max_length=128)
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    age = models.IntegerField()
-    slug = models.SlugField(unique=True)
-    avatar = models.ImageField(upload_to='avatars/')
+class User(AbstractUser):
+    age = models.IntegerField(null=True, blank=True)
+    avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
+    slug = models.SlugField(unique=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.username)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.username
+
+
+class Idea(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='ideas')
+    topic = models.CharField(max_length=255)
+    description = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.topic

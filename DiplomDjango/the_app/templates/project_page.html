@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}О проекте{% endblock %}
+
+{% block content %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        .project-page-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 600px;
+            margin-top: 50px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #007BFF;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        h2 {
+            margin-top: 20px;
+            color: #007BFF;
+        }
+
+        .section-title {
+            margin-top: 20px;
+            color: #333;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .back-button {
+            display: block;
+            width: 150px;
+            margin: 20px auto;
+            padding: 10px;
+            text-align: center;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+
+    <div class="project-page-container">
+        <h1>О проекте</h1>
+        <p>Этот проект представляет собой платформу для обмена идеями, где пользователи могут создавать и делиться своими мыслями. Он предоставляет возможность пользователям зарегистрироваться, входить в систему, управлять своим профилем, а также записывать и редактировать свои идеи.</p>
+
+        <h2>Возможности платформы</h2>
+        <p>Основные функции включают:</p>
+        <ul>
+            <li>Регистрация новых пользователей</li>
+            <li>Авторизация и аутентификация с использованием Django</li>
+            <li>Просмотр и редактирование профиля пользователя, включая изменение аватара</li>
+            <li>Создание, редактирование и удаление идей пользователей</li>
+            <li>Просмотр профилей других пользователей без возможности редактирования чужих данных</li>
+        </ul>
+
+        <h2>Как проект был реализован</h2>
+        <p>Проект был разработан с использованием фреймворка Django. Основные компоненты:</p>
+        <ul>
+            <li>Frontend: Использован HTML и CSS для создания пользовательского интерфейса, который полностью адаптирован под нужды пользователей.</li>
+            <li>Backend: Django реализует аутентификацию пользователей, управление сессиями, обработку форм и валидацию данных.</li>
+            <li>База данных: Использована стандартная ORM Django для работы с базой данных, где хранятся профили пользователей и их идеи.</li>
+            <li>Статические файлы: Аватары пользователей и другие изображения загружаются и хранятся в файловой системе проекта.</li>
+        </ul>
+
+        <p>Платформа разрабатывалась с акцентом на удобство использования и простоту управления контентом. Это позволяет пользователям быстро и легко обмениваться своими идеями.</p>
+
+    </div>
+
+{% endblock %}

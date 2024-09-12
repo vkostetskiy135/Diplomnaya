@@ -40,6 +40,11 @@
     </style>
 </head>
 <body>
+{% extends 'base.html' %}
+
+{% block title %}Вход на сайт{% endblock %}
+
+{% block content %}
     <div class="container">
         <h2>Список пользователей</h2>
         <ul class="user-list">
@@ -48,5 +53,6 @@
             {% endfor %}
         </ul>
     </div>
+{% endblock %}
 </body>
 </html>

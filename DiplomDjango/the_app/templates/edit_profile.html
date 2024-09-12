@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Редактировать профиль</title>
+{% extends 'base.html' %}
+
+{% block title %}Редактировать профиль{% endblock %}
+
+{% block content %}
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -45,40 +44,34 @@
         }
 
         .edit-profile-container .submit-button {
-            background-color: #007BFF; /* Синий цвет для кнопки "Подтвердить" */
+            background-color: #007BFF;
             color: white;
         }
 
         .edit-profile-container .submit-button:hover {
-            background-color: #0069d9; /* Более тёмный оттенок синего при наведении */
+            background-color: #0069d9;
         }
 
         .edit-profile-container .cancel-button {
-            background-color: #FF5733; /* Красный цвет для кнопки "Отменить" */
+            background-color: #FF5733;
             color: white;
         }
 
         .edit-profile-container .cancel-button:hover {
-            background-color: #E74C3C; /* Более тёмный оттенок красного при наведении */
+            background-color: #E74C3C;
         }
     </style>
-</head>
-<body>
 
-<div class="edit-profile-container">
-    <form action="{% url 'update_profile' slug=user.slug %}" method="post">
-        {% csrf_token %}
-        <input type="text" name="first_name" placeholder="Имя" value="{{ user.first_name }}" required>
-        <input type="text" name="last_name" placeholder="Фамилия" value="{{ user.last_name }}" required>
-        <input type="number" name="age" placeholder="Возраст" value="{{ user.age }}" required>
-
-        <button type="submit" class="submit-button">Подтвердить</button>
-    </form>
-    <form action="{% url 'profile' slug=user.slug %}" method="get">
-        <button type="submit" class="cancel-button">Отменить</button>
-    </form>
-</div>
-
-</body>
-</html>
-
+    <div class="edit-profile-container">
+        <form action="{% url 'edit_profile' slug=user.slug %}" method="post">
+            {% csrf_token %}
+            {{ form.first_name }}
+            {{ form.last_name }}
+            {{ form.age }}
+            <button type="submit" class="submit-button">Подтвердить</button>
+        </form>
+        <form action="{% url 'profile' slug=user.slug %}" method="get">
+            <button type="submit" class="cancel-button">Отменить</button>
+        </form>
+    </div>
+{% endblock %}

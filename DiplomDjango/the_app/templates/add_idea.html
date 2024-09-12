@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Добавить новую идею{% endblock %}
+
+{% block content %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        .add-idea-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 400px;
+        }
+
+        .add-idea-container input[type="text"],
+        .add-idea-container textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .add-idea-container button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            background-color: #28a745;
+            color: white;
+        }
+
+        .add-idea-container button:hover {
+            background-color: #218838;
+        }
+    </style>
+
+    <div class="add-idea-container">
+        <form action="{% url 'add_idea' %}" method="post">
+            {% csrf_token %}
+            {{ form.topic }}
+            {{ form.description }}
+            <button type="submit">Добавить идею</button>
+        </form>
+    </div>
+{% endblock %}

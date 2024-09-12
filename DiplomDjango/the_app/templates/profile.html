@@ -1,58 +1,26 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Личный кабинет</title>
+{% extends 'base.html' %}
+
+{% block title %}Личный кабинет{% endblock %}
+
+{% block content %}
     <style>
         body {
             font-family: Arial, sans-serif;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            height: 100vh;
             margin: 0;
             background-color: #f4f4f4;
         }
 
-        .profile-container {
+        .profile-container, .ideas-container {
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 300px;
-            position: relative;
-        }
-
-        .profile-container img {
-            border-radius: 50%;
-            width: 150px;
-            height: 150px;
+            width: 400px;
             margin-bottom: 20px;
-            position: relative;
-        }
-
-        .profile-container h2 {
-            margin: 0;
-            margin-bottom: 10px;
-        }
-
-        .profile-container p {
-            margin: 5px 0;
-            color: #333;
-        }
-
-        .profile-container .edit-button {
-            margin-top: 20px;
-            padding: 10px;
-            border: none;
-            border-radius: 4px;
-            background-color: #007BFF;
-            color: white;
-            cursor: pointer;
-            font-size: 16px;
+            text-align: center;
         }
 
         .avatar-container {
@@ -90,17 +58,13 @@
             opacity: 1;
         }
 
-        .upload-avatar-form {
-            margin-top: 10px;
-        }
-
         .upload-avatar-input {
             display: block;
             margin: 0 auto 10px;
-            width: 80%;  /* Полностью центрируем инпут */
+            width: 80%;
             padding: 1px;
             font-size: 14px;
-            background-color: #007BFF; /* Синий фон как у кнопки редактирования */
+            background-color: #007BFF;
             border-radius: 4px;
             border: none;
             color: white;
@@ -136,31 +100,137 @@
         input[type="file"]:hover::before {
             background: #0056b3;
         }
-    </style>
-</head>
-<body>
 
-<div class="profile-container">
-    <div class="avatar-container">
-        <img src="{% if user.avatar %}{{ user.avatar.url }}{% else %}/static/imgs/default_avatar.jpg{% endif %}" alt="Аватар пользователя">
-        <div class="avatar-hover">
-            <form action="{% url 'upload_avatar' slug=user.slug %}" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <input type="file" name="avatar" class="upload-avatar-input">
-                <button type="submit" class="upload-avatar-button">Загрузить</button>
-            </form>
+        .profile-container h2 {
+            margin: 0;
+            margin-bottom: 10px;
+        }
+
+        .profile-container p {
+            margin: 5px 0;
+            color: #333;
+        }
+
+        .profile-container .edit-button, .new-idea-button {
+            margin-top: 20px;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .new-idea-button {
+            background-color: #28a745;
+        }
+
+        .new-idea-button:hover {
+            background-color: #218838;
+        }
+
+        .idea {
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            text-align: left;
+            word-wrap: break-word;
+            white-space: normal;
+        }
+
+        .idea-topic {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .idea-description {
+            margin-bottom: 10px;
+        }
+
+        .idea-actions {
+            margin-top: 10px;
+            text-align: right;
+        }
+
+        .idea-actions button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+
+        .idea-actions button:hover {
+            background-color: #0056b3;
+        }
+
+        .idea-actions .delete-button {
+            background-color: #FF5733;
+        }
+
+        .idea-actions .delete-button:hover {
+            background-color: #E74C3C;
+        }
+    </style>
+
+    <div class="profile-container">
+        <div class="avatar-container">
+            <img src="{% if user.avatar %}{{ user.avatar.url }}{% else %}/static/imgs/default_avatar.jpg{% endif %}" alt="Аватар пользователя">
+            {% if request.user == user %}
+            <div class="avatar-hover">
+                <form action="{% url 'upload_avatar' slug=user.slug %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="file" name="avatar" class="upload-avatar-input">
+                    <button type="submit" class="upload-avatar-button">Загрузить</button>
+                </form>
+            </div>
+            {% endif %}
         </div>
+
+        <h2>{{ user.username }}</h2>
+        <p><strong>Имя:</strong> {{ user.first_name }}</p>
+        <p><strong>Фамилия:</strong> {{ user.last_name }}</p>
+        <p><strong>Возраст:</strong> {{ user.age }}</p>
+
+        {% if request.user == user %}
+        <form action="{% url 'edit_profile' slug=user.slug %}" method="get">
+            <button type="submit" class="edit-button">Редактировать</button>
+        </form>
+
+        <form action="{% url 'add_idea' %}" method="get">
+            <button type="submit" class="new-idea-button">Новая идея</button>
+        </form>
+        {% endif %}
     </div>
 
-    <h2>{{ user.username }}</h2>
-    <p><strong>Имя:</strong> {{ user.first_name }}</p>
-    <p><strong>Фамилия:</strong> {{ user.last_name }}</p>
-    <p><strong>Возраст:</strong> {{ user.age }}</p>
+    <div class="ideas-container">
+        <h3>Идеи</h3>
+        {% for idea in user.ideas.all %}
+        <div class="idea">
+            <div class="idea-topic">Тема: {{ idea.topic }}</div>
+            <div class="idea-description">Идея: {{ idea.description }}</div>
 
-    <form action="{% url 'edit_profile' slug=user.slug %}" method="get">
-        <button type="submit" class="edit-button">Редактировать</button>
-    </form>
-</div>
+            {% if request.user == user %}
+            <div class="idea-actions">
+                <form action="{% url 'edit_idea' idea.pk %}" method="get" style="display:inline;">
+                    <button type="submit">Редактировать</button>
+                </form>
+                <form action="{% url 'delete_idea' idea.pk %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-button">Удалить</button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+        {% empty %}
+        <p>Идей пока нет.</p>
+        {% endfor %}
+    </div>
 
-</body>
-</html>
+{% endblock %}
